@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
+//
 // React.StrictMode - суворий редим написання коду
 // Provider - огортаємо весь наш додаток App, щоб мати доступ до store в будь-якому компоненті
 // PersistGate - обгортка для того, щоб працювати localstorage. persistor імпортуєтсья зі стору
