@@ -1,9 +1,13 @@
+// підключення бібліотеки axios
 import axios from 'axios';
+
+// підключення бібліотеки createAsyncThunk
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+// базовий урл для запиту звичайним фетчем
 const BASE_URL = 'https://648a22075fa58521cab0e719.mockapi.io';
 
-// 1-1 на звичайному фетчі отримання даних
+// 1-1 на звичайному фетчі отримання даних (просто для практики зробив)
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
   async (_, thunkAPI) => {
@@ -17,6 +21,7 @@ export const fetchContacts = createAsyncThunk(
   }
 );
 
+// базовий урл для axios
 axios.defaults.baseURL = 'https://648a22075fa58521cab0e719.mockapi.io';
 
 // 1-2 на  axios отримання даних

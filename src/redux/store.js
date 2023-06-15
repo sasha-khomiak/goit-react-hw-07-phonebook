@@ -7,7 +7,7 @@ import logger from 'redux-logger';
 // підключення slice для нашого фільтра (а потім и з нього витягаємо редʼюсер коли вказуємо в store)
 import { filterSlice } from './filterSlice';
 
-// підключення slice для наших контактів
+// підключення slice для наших контактів (а потім и з нього витягаємо редʼюсер коли вказуємо в store)
 import { contactsSlice } from './contactsSlice';
 
 // створення store.

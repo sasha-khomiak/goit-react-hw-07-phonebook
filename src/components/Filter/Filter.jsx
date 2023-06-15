@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // функція формування екшен перезапису фільтра в стейті
 import { editFilter } from 'redux/filterSlice';
 
+// селектор для фільтра
 import { selectFilter } from 'redux/selectors';
 
 // компонент Filter

@@ -6,59 +6,63 @@ import { Ul, Li, Name, Button } from './ContactList.styled';
 import { useDispatch, useSelector } from 'react-redux';
 
 // функція формування екщена для видалення контакту
-// import { deleteContact } from 'redux/contactsSlice';
 import { deleteContact } from 'redux/operations';
 
-import { selectContacts, selectIsLoading, selectError } from 'redux/selectors';
+// селектори для стейту стану контактів (завантаження, відфільтрований результат, помилка)
+import {
+  selectIsLoading,
+  selectError,
+  selectFilteredContacts,
+} from 'redux/selectors';
 
-// імпорт селектора фільтра
-import { selectFilter } from 'redux/selectors';
-
+// useEffect для оновлення сontacts при їх зміні
 import { useEffect } from 'react';
 
+// операція отримання контатків
 import { fetchContacts } from 'redux/operations';
 
 // наш компонент
 const ContactList = () => {
   const dispatch = useDispatch();
 
+  // оновлення сontacts при їх зміні
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  // отримуємо значення contacts. Реструктуризуємо {}, ьо там міститься обʼєкт зі значенням contacts і якому уже лежить масив
-  // отримуємо значення filter
-  const contacts = useSelector(selectContacts);
+  // значення стейт завантаження і помилки
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
 
-  const filter = useSelector(selectFilter);
-
-  // визначаємо список відфільтрованих контактів (для верстки) в залежності від значення filter
-  const filteredContacts = contacts.filter(item =>
-    item.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase().trim())
-  );
+  // відфільтровані контакти
+  const filteredContacts = useSelector(selectFilteredContacts);
 
   // верстка компонента
+  // Якщо завантаження - Loading tasks...
+  // Якщо помилка з бекенду - повідомлення
+  // якщо в масиві хоча б одне значення, то виводимо
   return (
     <>
       {isLoading && <p>Loading tasks...</p>}
       {error && <p>{error}</p>}
-      <Ul>
-        {filteredContacts.map(item => {
-          return (
-            <Li key={item.id}>
-              <Name>{item.name}: </Name> <p>{item.phone}</p>
-              <Button
-                type="button"
-                onClick={() => dispatch(deleteContact(item.id))}
-              >
-                Delete
-              </Button>
-            </Li>
-          );
-        })}
-      </Ul>
+
+      {filteredContacts.length > 0 && (
+        <Ul>
+          {filteredContacts.map(item => {
+            return (
+              <Li key={item.id}>
+                <Name>{item.name}: </Name> <p>{item.phone}</p>
+                <Button
+                  type="button"
+                  onClick={() => dispatch(deleteContact(item.id))}
+                >
+                  Delete
+                </Button>
+              </Li>
+            );
+          })}
+        </Ul>
+      )}
     </>
   );
 };
