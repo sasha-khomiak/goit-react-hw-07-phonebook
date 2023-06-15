@@ -6,7 +6,7 @@ import { Input } from './Filter.styled';
 import { useSelector, useDispatch } from 'react-redux';
 
 // функція формування екшен перезапису фільтра в стейті
-import { editFilter } from 'redux/filter/filterSlice';
+import { editFilter } from 'redux/filterSlice';
 
 import { getFilter } from 'redux/selectors';
 

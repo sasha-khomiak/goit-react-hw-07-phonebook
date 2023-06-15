@@ -12,7 +12,7 @@ import { Input, Label, Button, Form, Wrap } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 
 // екшин додавання контакту підключаєм з глобального redux стейту
-import { addContact } from 'redux/contacts/contactsSlice';
+import { addContact } from 'redux/contactsSlice';
 import { getContacts } from 'redux/selectors';
 
 // функціональний компонент

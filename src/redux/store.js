@@ -5,10 +5,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 // підключення slice для нашого фільтра (а потім и з нього витягаємо редʼюсер коли вказуємо в store)
-import { filterSlice } from './filter/filterSlice';
+import { filterSlice } from './filterSlice';
 
 // підключення уже готового редʼюсера контактів прогнаного через persist (для зберігання в localStorage)
-import { persistedContactsReducer } from '../redux/contacts/contactsSlice';
+import { persistedContactsReducer } from './contactsSlice';
 
 // підключення persist для роботи з localstorage для Gate в index.js
 import { persistStore } from 'redux-persist';
