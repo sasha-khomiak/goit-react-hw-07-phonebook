@@ -1,23 +1,50 @@
 // імпортуємо бібліотеку createSlice
 import { createSlice } from '@reduxjs/toolkit';
 
-// storage і persistReducer для роботи із роботи з localStorage
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import { persistReducer } from 'redux-persist';
+export const getContactsThunk = () => {
+  return async dispatch => {
+    try {
+      dispatch(contactsSlice.actions.fetching);
+      const response = await fetch(
+        'https://648a22075fa58521cab0e719.mockapi.io/contacts'
+      );
+      const data = await response.json();
+      console.log('data', data);
+      dispatch(contactsSlice.actions.fetchSucsess(data));
+    } catch (error) {
+      dispatch(contactsSlice.actions.fetchError(error));
+    }
+  };
+};
 
-//  створюємо Slice для 'contacts'
 // початковий стан
-// ред'юсери з двома екшенами додавання і видалення контакту і перезаписом localStorage
-// оскільки ми працюємо із persist то він вписує свої дані в локаосторідж і повертає обʼєкт
-// тому краще дані зберігати в обʼєкті в параметрі contacts уже зберігати масив
-//  відтак в локалсторідж буде обʼєкт - пергий параметр contacts, а другий технічний _persist
+const initialState = {
+  contacts: [],
+  isLoading: false,
+  error: '',
+};
+
+//  !!!! створюємо Slice для 'contacts'
+// ред'юсери з двома екшенами додавання і видалення контакту
+// тому краще дані зі сховища !!!! зберігати в обʼєкті в параметрі contacts уже зберігати масив
 // відповідно і до стейту ми звертаємося через точку до патаметра обʼєкту
-const contactsSlice = createSlice({
+export const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: {
-    contacts: [],
-  },
+  initialState,
   reducers: {
+    fetching(state) {
+      state.isLoading = true;
+    },
+    fetchSucsess(state, action) {
+      state.isLoading = false;
+      state.contacts = action.payload;
+      state.error = '';
+    },
+    fetchError(state, { payload }) {
+      state.isLoading = false;
+      state.error = payload;
+    },
+
     addContact(state, action) {
       return { contacts: [...state.contacts, action.payload] };
     },
@@ -30,24 +57,6 @@ const contactsSlice = createSlice({
     },
   },
 });
-
-// конфігурація persist, який працює з localstorage
-// key - те, як наші дані будуть зберігатися в localstorage =>  persist:contacts
-// storage - посилання на наш localstorage
-// whitelist - масив перерахованих обʼєктів які тільки і вносимо в localstorage (за замовчанням все вносить)
-const persistConfig = {
-  key: 'contacts',
-  storage,
-  whitelist: ['contacts'],
-};
-// створюємо персісторний редʼюсер
-//  перший параметр - обʼєкт конфігурації
-// другий параметр  - наш редєюсер для зберігання в localstorage
-// його  і вписуємо в нашому сторі (дя цього його звідси експортуємо )
-export const persistedContactsReducer = persistReducer(
-  persistConfig,
-  contactsSlice.reducer
-);
 
 //  експорти наших екшенів (для підключення в компонентах)
 export const { addContact, deleteContact } = contactsSlice.actions;

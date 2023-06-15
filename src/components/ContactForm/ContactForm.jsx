@@ -26,7 +26,7 @@ export default function ContactForm() {
 
   // локальні стейти для контрольованих інпутів у формі
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   // контрольовані інпути. реагуємо на івент
   // беремо нейм каррент таргет  і світч-кейс оновлюємо значення стейту
@@ -35,8 +35,8 @@ export default function ContactForm() {
       case 'name':
         setName(e.currentTarget.value);
         break;
-      case 'number':
-        setNumber(e.currentTarget.value);
+      case 'phone':
+        setPhone(e.currentTarget.value);
         break;
       default:
         return;
@@ -56,14 +56,14 @@ export default function ContactForm() {
     const newContact = {
       id: nanoid(5),
       name,
-      number,
+      phone,
     };
     if (checkNewNameRepeate(name)) {
       alert(`${name} is already in contacts!`);
     } else {
       dispatch(addContact(newContact));
       setName('');
-      setNumber('');
+      setPhone('');
     }
   };
 
@@ -93,14 +93,14 @@ export default function ContactForm() {
           />
         </Label>
         <Label>
-          Number:
+          Phone:
           <Input
             type="tel"
-            name="number"
+            name="phone"
             // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            value={number}
+            value={phone}
             onChange={handleChangeInput}
           />
         </Label>

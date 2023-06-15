@@ -13,6 +13,8 @@ import { getContacts } from 'redux/selectors';
 // імпорт селектора фільтра
 import { getFilter } from 'redux/selectors';
 
+import { getContactsThunk } from '../../redux/contactsSlice';
+
 // наш компонент
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -26,23 +28,24 @@ const ContactList = () => {
     item.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase().trim())
   );
 
-  async function getfromApi() {
-    const response = await fetch(
-      'https://648a22075fa58521cab0e719.mockapi.io/contacts'
-    );
-    const data = await response.json();
-    console.log('data', data);
-  }
+  // async function getfromApi() {
+  //   const response = await fetch(
+  //     'https://648a22075fa58521cab0e719.mockapi.io/contacts'
+  //   );
+  //   const data = await response.json();
+  //   console.log('data', data);
+  // }
 
-  getfromApi();
+  // getfromApi();
 
   // верстка компонента
   return (
     <Ul>
+      <button onClick={() => dispatch(getContactsThunk())}>111</button>
       {filteredContacts.map(item => {
         return (
           <Li key={item.id}>
-            <Name>{item.name}: </Name> <p>{item.number}</p>
+            <Name>{item.name}: </Name> <p>{item.phone}</p>
             <Button
               type="button"
               onClick={() => dispatch(deleteContact(item.id))}
