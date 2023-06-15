@@ -6,10 +6,12 @@ import { Ul, Li, Name, Button } from './ContactList.styled';
 import { useDispatch, useSelector } from 'react-redux';
 
 // функція формування екщена для видалення контакту
-import { deleteContact, getContacts } from 'redux/contacts/contactsSlice';
+import { deleteContact } from 'redux/contacts/contactsSlice';
+
+import { getContacts } from 'redux/selectors';
 
 // імпорт селектора фільтра
-import { getFilter } from 'redux/filter/filterSlice';
+import { getFilter } from 'redux/selectors';
 
 // наш компонент
 const ContactList = () => {
