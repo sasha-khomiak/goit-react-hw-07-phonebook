@@ -26,6 +26,16 @@ const ContactList = () => {
     item.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase().trim())
   );
 
+  async function getfromApi() {
+    const response = await fetch(
+      'https://648a22075fa58521cab0e719.mockapi.io/contacts'
+    );
+    const data = await response.json();
+    console.log('data', data);
+  }
+
+  getfromApi();
+
   // верстка компонента
   return (
     <Ul>
