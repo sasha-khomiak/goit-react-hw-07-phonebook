@@ -18,9 +18,10 @@ import { getContactsThunk } from '../../redux/contactsSlice';
 // наш компонент
 const ContactList = () => {
   const dispatch = useDispatch();
+  dispatch(getContactsThunk());
   // отримуємо значення contacts. Реструктуризуємо {}, ьо там міститься обʼєкт зі значенням contacts і якому уже лежить масив
   // отримуємо значення filter
-  const { contacts } = useSelector(getContacts);
+  const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
 
   // визначаємо список відфільтрованих контактів (для верстки) в залежності від значення filter
@@ -41,7 +42,7 @@ const ContactList = () => {
   // верстка компонента
   return (
     <Ul>
-      <button onClick={() => dispatch(getContactsThunk())}>111</button>
+      {/* <button onClick={() => dispatch(getContactsThunk())}>111</button> */}
       {filteredContacts.map(item => {
         return (
           <Li key={item.id}>
