@@ -1,27 +1,13 @@
 // імпортуємо бібліотеку createSlice
 import { createSlice } from '@reduxjs/toolkit';
 
-export const getContactsThunk = () => {
-  return async dispatch => {
-    try {
-      dispatch(contactsSlice.actions.fetching);
-      const response = await fetch(
-        'https://648a22075fa58521cab0e719.mockapi.io/contacts'
-      );
-      const data = await response.json();
-      console.log('data', data);
-      dispatch(contactsSlice.actions.fetchSucsess(data));
-    } catch (error) {
-      dispatch(contactsSlice.actions.fetchError(error));
-    }
-  };
-};
+import { fetchContacts, addContact, deleteContact } from './operations';
 
 // початковий стан
 const initialState = {
   contacts: [],
   isLoading: false,
-  error: '',
+  error: null,
 };
 
 //  !!!! створюємо Slice для 'contacts'
@@ -31,35 +17,45 @@ const initialState = {
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
-  reducers: {
-    fetching(state) {
+  extraReducers: {
+    [fetchContacts.pending](state) {
       state.isLoading = true;
     },
-    fetchSucsess(state, action) {
-      state.isLoading = false;
+    [fetchContacts.fulfilled](state, action) {
       state.contacts = action.payload;
-      state.error = '';
+      state.isLoading = false;
+      state.error = null;
     },
-    fetchError(state, { payload }) {
+    [fetchContacts.rejected](state, { payload }) {
       state.isLoading = false;
       state.error = payload;
     },
-
-    addContact(state, action) {
-      return { contacts: [...state.contacts, action.payload] };
+    [addContact.pending](state) {
+      state.isLoading = true;
     },
-    deleteContact(state, action) {
-      return {
-        contacts: state.contacts.filter(
-          contact => contact.id !== action.payload
-        ),
-      };
+    [addContact.fulfilled](state, action) {
+      state.contacts.push(action.payload);
+      state.isLoading = false;
+      state.error = null;
+    },
+    [addContact.rejected](state, { payload }) {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [deleteContact.pending](state) {
+      state.isLoading = true;
+    },
+    [deleteContact.fulfilled](state, action) {
+      const index = state.contacts.findIndex(
+        contact => contact.id === action.payload.id
+      );
+      state.contacts.splice(index, 1);
+      state.isLoading = false;
+      state.error = null;
+    },
+    [deleteContact.rejected](state, { payload }) {
+      state.isLoading = false;
+      state.error = payload;
     },
   },
 });
-
-//  експорти наших екшенів (для підключення в компонентах)
-export const { addContact, deleteContact } = contactsSlice.actions;
-
-// //селектори
-// export const getContacts = state => state.contacts;

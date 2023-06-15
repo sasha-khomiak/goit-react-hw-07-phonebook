@@ -17,6 +17,3 @@ export const filterSlice = createSlice({
 
 //  експорти наших екшенів для використання в компонентах
 export const { editFilter } = filterSlice.actions;
-
-// //  селектори
-// export const getFilter = state => state.filter;

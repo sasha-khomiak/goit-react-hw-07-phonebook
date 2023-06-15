@@ -8,12 +8,12 @@ import { useSelector, useDispatch } from 'react-redux';
 // функція формування екшен перезапису фільтра в стейті
 import { editFilter } from 'redux/filterSlice';
 
-import { getFilter } from 'redux/selectors';
+import { selectFilter } from 'redux/selectors';
 
 // компонент Filter
 const Filter = () => {
   //отримаємо значення голбального стейту параметра filter
-  const value = useSelector(getFilter);
+  const value = useSelector(selectFilter);
   // dispatch для закидання для редʼюса обʼєкта екшена
   const dispatch = useDispatch();
 
